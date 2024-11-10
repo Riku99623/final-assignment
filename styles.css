@@ -1,0 +1,193 @@
+/* ベーススタイル */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* レスポンシブヘッダー */
+header {
+    background-color: #1d3557;
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 1.5rem;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #a8dadc;
+}
+
+/* メインコンテンツのスタイル */
+main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    color: #1d3557;
+    margin-bottom: 1rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: #555;
+}
+
+/* カメラカード */
+ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+li {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    transition: transform 0.3s;
+}
+
+li:hover {
+    transform: translateY(-5px);
+}
+
+li a {
+    text-decoration: none;
+    color: #1d3557;
+    font-weight: bold;
+    display: block;
+    margin-top: 1rem;
+}
+
+li a:hover {
+    color: #457b9d;
+}
+
+/* ボタン */
+button,
+a.button {
+    background-color: #1d3557;
+    color: #fff;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+button:hover,
+a.button:hover {
+    background-color: #457b9d;
+}
+
+/* フォームスタイル */
+form {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 1rem auto;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #1d3557;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: #457b9d;
+    outline: none;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+    }
+
+    nav a {
+        margin: 0.5rem 0;
+    }
+
+    main {
+        padding: 1rem;
+    }
+}
+/* セクションスタイル */
+section {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 見出し */
+h2 {
+    color: #1d3557;
+    margin-bottom: 1rem;
+}
+
+/* リストのスタイル */
+.benefits ul, .how-to ol {
+    margin-left: 1.5rem;
+    line-height: 1.6;
+}
+
+.benefits li, .how-to li {
+    margin-bottom: 0.5rem;
+}
+
+/* アクションセクション */
+.cta {
+    text-align: center;
+}
+
+.cta p {
+    margin-bottom: 1rem;
+}
