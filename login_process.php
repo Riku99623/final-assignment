@@ -1,10 +1,17 @@
 <?php
+session_start(); // セッションの開始
+
+// デバッグ用のエラーメッセージ表示
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
+    $email = $_POST["email"];
     $password = $_POST["password"];
 
     // データベース接続
-    $dsn = 'mysql:host=localhost;dbname=camera_rental;charset=utf8';
+    $dsn = 'mysql:host=localhost;dbname=camera;charset=utf8';
     $db_user = 'root';
     $db_pass = '';
     try {
@@ -14,16 +21,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // ユーザーの認証
-    $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    // ユーザー情報の取得
+    $sql = "SELECT * FROM users WHERE email = ?";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$username, $password]);
-    $user = $stmt->fetch();
+    $stmt->execute([$email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($user) {
-        echo "ログイン成功！";
+    if ($user && password_verify($password, $user['password'])) {
+        // 認証成功：セッションにユーザー情報を保存
+        $_SESSION["user_id"] = $user["id"];
+        $_SESSION["username"] = $user["username"];
+        $_SESSION["loggedin"] = true;
+
+        // ログイン成功のメッセージとリダイレクト
+        echo "<script>alert('ログインに成功しました。'); window.location.href = 'index.php';</script>";
     } else {
-        echo "ユーザー名またはパスワードが間違っています。";
+        // 認証失敗：エラーメッセージを表示
+        echo "<script>alert('メールアドレスまたはパスワードが正しくありません。'); window.history.back();</script>";
     }
 }
 ?>

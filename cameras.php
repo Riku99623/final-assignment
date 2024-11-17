@@ -10,7 +10,7 @@
     <header>
         <h1>カメラ一覧</h1>
         <nav>
-            <a href="index.html">ホーム</a>
+            <a href="index.php">ホーム</a>
             <a href="store_camera.html">カメラを保管する</a>
         </nav>
     </header>

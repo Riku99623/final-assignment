@@ -1,4 +1,9 @@
 <?php
+// デバッグ用のエラーメッセージ表示
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST["username"];
     $email = $_POST["email"];
@@ -8,9 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // データベース接続
-    $dsn = 'mysql:host=localhost;dbname=camera_rental;charset=utf8';
-    $db_user = 'root';
-    $db_pass = '';
+    $dsn = 'mysql:host=127.0.0.1;dbname=camera;charset=utf8';
+    $db_user = 'root';   // データベースユーザー名
+    $db_pass = '';       // データベースパスワード
+
     try {
         $pdo = new PDO($dsn, $db_user, $db_pass);
     } catch (PDOException $e) {
