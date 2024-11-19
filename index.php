@@ -1,5 +1,9 @@
 <?php
-session_start(); // セッションの開始
+session_start();
+
+// ログイン状態確認
+$loggedIn = isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true;
+$isAdmin = $loggedIn && isset($_SESSION["role"]) && $_SESSION["role"] === 'admin';
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +30,10 @@ session_start(); // セッションの開始
                 <a href="login.html">ログイン</a>
                 <a href="register.html" class="button">新規会員登録</a>
             <?php endif; ?>
+            <?php if ($isAdmin): ?>
+            <!-- 管理者専用ボタン -->
+            <a href="admin_camera_register.php" class="button">カメラ登録</a>
+        <?php endif; ?>
         </nav>
     </header>
     
@@ -55,7 +63,7 @@ session_start(); // セッションの開始
                 <li>🔍 <strong>カメラ検索</strong>：豊富な機種からぴったりのカメラを探せます。</li>
                 <li>✉️ <strong>レンタル申請</strong>：ワンクリックでレンタル申請完了。</li>
             </ul>
-            <a href="cameras.html" class="button">カメラ一覧を見る</a>
+            <a href="cameras.php" class="button">カメラ一覧を見る</a>
         </section>
         
         <!-- サービスのメリット -->

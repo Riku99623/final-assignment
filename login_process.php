@@ -1,5 +1,5 @@
 <?php
-session_start(); // セッションの開始
+session_start();
 
 // デバッグ用のエラーメッセージ表示
 ini_set('display_errors', 1);
@@ -28,15 +28,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($password, $user['password'])) {
-        // 認証成功：セッションにユーザー情報を保存
+        // 認証成功
         $_SESSION["user_id"] = $user["id"];
         $_SESSION["username"] = $user["username"];
+        $_SESSION["role"] = $user["role"]; // ユーザーのロールを保存
         $_SESSION["loggedin"] = true;
 
-        // ログイン成功のメッセージとリダイレクト
         echo "<script>alert('ログインに成功しました。'); window.location.href = 'index.php';</script>";
     } else {
-        // 認証失敗：エラーメッセージを表示
+        // 認証失敗
         echo "<script>alert('メールアドレスまたはパスワードが正しくありません。'); window.history.back();</script>";
     }
 }

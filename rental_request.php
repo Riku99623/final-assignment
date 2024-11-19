@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $rental_days = $_POST["rental_days"];
 
     // データベース接続（例としてPDOを使用）
-    $dsn = 'mysql:host=localhost;dbname=camera_rental;charset=utf8';
+    $dsn = 'mysql:host=localhost;dbname=camera;charset=utf8';
     $username = 'root';
     $password = '';
     try {

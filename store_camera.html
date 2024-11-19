@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>カメラ保管申し込み</title>
+    <title>カメラ保管申請</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>カメラ保管申し込み</h1>
+        <h1>📦 カメラ保管申請</h1>
         <nav>
-            <a href="index.php">ホーム</a>
-            <a href="cameras.html">カメラ一覧</a>
+            <a href="index.html">ホーム</a>
+            <a href="mypage.php">マイページ</a>
         </nav>
     </header>
-    <main>
-        <form id="store-camera-form" action="store_camera_process.php" method="POST">
-            <label for="name">カメラの名前</label>
-            <input type="text" id="name" name="name" required>
 
-            <label for="description">カメラの説明</label>
+    <main>
+        <form action="store_camera_process.php" method="POST">
+            <label for="camera_name">カメラ名 <span style="color: red;">*</span></label>
+            <input type="text" id="camera_name" name="camera_name" required>
+
+            <label for="description">説明 <span style="color: red;">*</span></label>
             <textarea id="description" name="description" required></textarea>
 
-            <label for="image_url">カメラの画像URL</label>
+            <label for="image_url">画像URL</label>
             <input type="text" id="image_url" name="image_url">
 
             <button type="submit" class="button">保管を申し込む</button>
@@ -30,3 +31,4 @@
     </main>
 </body>
 </html>
+
