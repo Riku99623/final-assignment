@@ -20,6 +20,7 @@ $isAdmin = $loggedIn && isset($_SESSION["role"]) && $_SESSION["role"] === 'admin
         <nav>
             <a href="index.php">ホーム</a>
             <a href="cameras.php">カメラ一覧</a>
+            <a href="mypage.php">マイページ</a>
 
             <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true): ?>
                 <!-- ログイン中：ユーザーネームとログアウトボタン -->

@@ -79,7 +79,7 @@ $cameras = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <header>
         <h1>カメラ一覧</h1>
         <nav>
-            <a href="index.html">ホーム</a>
+            <a href="index.php">ホーム</a>
             <a href="mypage.php">マイページ</a>
         </nav>
     </header>

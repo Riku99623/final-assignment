@@ -42,13 +42,12 @@ $stmt_history->execute([$user_id]);
 $rental_history = $stmt_history->fetchAll(PDO::FETCH_ASSOC);
 
 // 保管中のカメラリストを取得
-$sql_storage = "
-    SELECT name, image_path, specs, created_at
-    FROM cameras
-    WHERE user_id = ? AND status = 'stored'";
-$stmt_storage = $pdo->prepare($sql_storage);
-$stmt_storage->execute([$user_id]);
-$stored_cameras = $stmt_storage->fetchAll(PDO::FETCH_ASSOC);
+
+$sql = "SELECT * FROM cameras WHERE user_id = ? AND status IN ('stored', 'available')";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$user_id]);
+$stored_cameras = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 // ユーザープロフィール情報を取得
 $sql_user = "SELECT username, email FROM users WHERE id = ?";
@@ -111,22 +110,26 @@ $user_info = $stmt_user->fetch(PDO::FETCH_ASSOC);
 
         <!-- 保管中のカメラ -->
         <section>
-            <h2>🛠️ 保管中のカメラ</h2>
-            <?php if (count($stored_cameras) > 0): ?>
-                <ul class="camera-list">
-                    <?php foreach ($stored_cameras as $camera): ?>
-                        <li class="camera-item">
-                            <h3><?php echo htmlspecialchars($camera["name"]); ?></h3>
-                            <img src="<?php echo htmlspecialchars($camera["image_path"]); ?>" alt="カメラ画像">
-                            <p><?php echo htmlspecialchars($camera["specs"]); ?></p>
-                            <p>登録日: <?php echo htmlspecialchars($camera["created_at"]); ?></p>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php else: ?>
-                <p>現在保管中のカメラはありません。</p>
-            <?php endif; ?>
-        </section>
+    <h2>🛠️ 保管中のカメラ</h2>
+    <?php if (count($stored_cameras) > 0): ?>
+        <ul>
+            <?php foreach ($stored_cameras as $camera): ?>
+                <li>
+                    <?php if ($camera["status"] === "available"): ?>
+                        <h3><?php echo htmlspecialchars($camera["name"]); ?></h3>
+                        <img src="<?php echo htmlspecialchars($camera["image_path"]); ?>" alt="カメラ画像" style="max-width: 150px; max-height: 150px;">
+                        <p>保管期間: <?php echo htmlspecialchars($camera["storage_start_date"]); ?> 〜 <?php echo htmlspecialchars($camera["storage_end_date"]); ?></p>
+                    <?php else: ?>
+                        <p><?php echo htmlspecialchars($camera["name"]); ?> - 管理者が登録するまでお待ちください。</p>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    <?php else: ?>
+        <p>現在保管中のカメラはありません。</p>
+    <?php endif; ?>
+</section>
+
 
         <!-- レンタル中のカメラ -->
         <section>

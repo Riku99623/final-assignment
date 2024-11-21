@@ -10,23 +10,23 @@
     <header>
         <h1>📦 カメラ保管申請</h1>
         <nav>
-            <a href="index.html">ホーム</a>
+            <a href="index.php">ホーム</a>
             <a href="mypage.php">マイページ</a>
         </nav>
     </header>
 
     <main>
         <form action="store_camera_process.php" method="POST">
-            <label for="camera_name">カメラ名 <span style="color: red;">*</span></label>
+            <label for="camera_name">カメラ名</label>
             <input type="text" id="camera_name" name="camera_name" required>
 
-            <label for="description">説明 <span style="color: red;">*</span></label>
-            <textarea id="description" name="description" required></textarea>
+            <label for="storage_start_date">保管開始日</label>
+            <input type="date" id="storage_start_date" name="storage_start_date" required>
 
-            <label for="image_url">画像URL</label>
-            <input type="text" id="image_url" name="image_url">
+            <label for="storage_end_date">保管終了日</label>
+            <input type="date" id="storage_end_date" name="storage_end_date" required>
 
-            <button type="submit" class="button">保管を申し込む</button>
+            <button type="submit" class="button">保管を申請する</button>
         </form>
     </main>
 </body>

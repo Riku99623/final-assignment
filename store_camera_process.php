@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-// ログイン状態の確認
+// ログイン確認
 if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: login.html");
+    echo "<script>alert('ログインしてください。'); window.location.href = 'login.html';</script>";
     exit;
 }
 
-// データベース接続情報
+// データベース接続
 $dsn = 'mysql:host=localhost;dbname=camera;charset=utf8';
 $db_user = 'root';
 $db_pass = '';
@@ -18,34 +18,39 @@ try {
     exit;
 }
 
-// ユーザーIDを取得
+// POSTデータの取得
+$camera_name = $_POST["camera_name"];
+$storage_start_date = $_POST["storage_start_date"];
+$storage_end_date = $_POST["storage_end_date"];
 $user_id = $_SESSION["user_id"];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $camera_name = $_POST["camera_name"];
-    $description = $_POST["description"];
-    $image_url = $_POST["image_url"];
-
-    // 入力値の検証
-    if (empty($camera_name) || empty($description)) {
-        echo "<script>alert('すべての必須項目を入力してください。'); window.history.back();</script>";
-        exit;
-    }
-
-    // カメラ情報をデータベースに保存
-    $sql = "INSERT INTO cameras (user_id, name, status, created_at) VALUES (?, ?, 'stored', NOW())";
-    $stmt = $pdo->prepare($sql);
-
-    try {
-        $stmt->execute([$user_id, $camera_name]);
-
-        echo "<script>alert('カメラが正常に保管されました。'); window.location.href = 'mypage.php';</script>";
-    } catch (PDOException $e) {
-        echo "<script>alert('カメラの保管中にエラーが発生しました。'); window.history.back();</script>";
-    }
-} else {
-    // POST以外のリクエストがあった場合
-    header("location: store_camera.html");
+// 入力検証
+if (empty($camera_name) || empty($storage_start_date) || empty($storage_end_date)) {
+    echo "<script>alert('すべての項目を入力してください。'); window.history.back();</script>";
     exit;
+}
+
+if (strtotime($storage_start_date) > strtotime($storage_end_date)) {
+    echo "<script>alert('保管終了日は保管開始日以降の日付を選択してください。'); window.history.back();</script>";
+    exit;
+}
+
+// データベースに保管情報を挿入
+$sql = "INSERT INTO cameras (user_id, name, storage_start_date, storage_end_date, status) 
+               VALUES (?, ?, ?, ?, 'stored')";
+$stmt = $pdo->prepare($sql);
+
+$sql_notification = "INSERT INTO notifications (user_id, camera_name) VALUES (?, ?)";
+$stmt_notification = $pdo->prepare($sql_notification);
+
+try {
+    $pdo->beginTransaction();
+    $stmt->execute([$user_id, $camera_name, $storage_start_date, $storage_end_date]);
+    $stmt_notification->execute([$user_id, $camera_name]);
+    $pdo->commit();
+    echo "<script>alert('カメラの保管申請が完了しました。管理者が登録するまでお待ちください。'); window.location.href = 'mypage.php';</script>";
+} catch (PDOException $e) {
+    $pdo->rollBack();
+    echo "保管申請エラー: " . $e->getMessage();
 }
 ?>
